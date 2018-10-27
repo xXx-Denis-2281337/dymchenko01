@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="Dymchenko.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Height="400" Width="1000"
+             x:ClassModifier="internal">
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="275"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="575"/>
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="275"
+            Height="50"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Margin="5,5"
+            Content="{Binding UserText}"/>
+        <Button
+            Grid.Column="1"
+            Grid.Row="1"
+            Width="100"
+            Height="40"
+            HorizontalAlignment="Left"
+            Content="Choose Folder"
+            Margin="5,5"
+            Command="{Binding ChooseFolderCommand}"/>
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="275"
+            Height="250"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Margin="0,0"
+            Content="{Binding ResultText}"/>
+        <Button
+            Grid.Column="3"
+            Grid.Row="0"
+            Width="100"
+            Height="40"
+            HorizontalAlignment="Right"
+            Content="Sign Out"
+            Margin="5,5"
+            Command="{Binding SignOutCommand}"/>
+        <Button
+            Grid.Column="3"
+            Grid.Row="1"
+            Width="100"
+            Height="40"
+            HorizontalAlignment="Left"
+            Content="Show History"
+            Margin="5,5"
+            Command="{Binding ShowHistoryCommand}"/>
+        <Label
+            Grid.Row="2"
+            Grid.Column="3"
+            Width="275"
+            Height="250"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Margin="5,5"
+            Content="{Binding HistoryText}"/>
+        <DataGrid
+            Grid.Column="3"
+            Grid.Row="2"
+            Margin="0,0,0,0"
+            Padding="0"
+            VerticalContentAlignment="Top"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.CanContentScroll="True"
+            ItemsSource="{Binding History}"
+            AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Path" Binding="{Binding Path}" Width="200" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Files Count" Binding="{Binding FilesCount}" Width="90" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Folders Count" Binding="{Binding FoldersCount}" Width="90" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Folder Size (byte)" Binding="{Binding FolderSize}" Width="105" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Date" Binding="{Binding FolderRequestDate}" Width="90" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button
+            Grid.Column="3"
+            Grid.Row="3"
+            Width="100"
+            Height="40"
+            HorizontalAlignment="Right"
+            Content="Close"
+            Margin="5,5"
+            Command="{Binding CloseCommand}"/>
+    </Grid>
+</UserControl>
