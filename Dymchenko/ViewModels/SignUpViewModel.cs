@@ -138,6 +138,7 @@ namespace Dymchenko.ViewModels
                 return;
             }
             MessageBox.Show(string.Format(Resources.SignUp_UserSuccessfulyCreated, _login));
+            StationManager.AddCurrentUserToCache();
             NavigationManager.Instance.Navigate(ModelsEnum.Main);
         }
 
