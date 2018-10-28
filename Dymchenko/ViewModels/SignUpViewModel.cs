@@ -144,11 +144,11 @@ namespace Dymchenko.ViewModels
 
         private bool SignUpCanExecute(object obj)
         {
-            return !string.IsNullOrEmpty(_login) &&
-                   !string.IsNullOrEmpty(_password) &&
-                   !string.IsNullOrEmpty(_firstName) &&
-                   !string.IsNullOrEmpty(_lastName) &&
-                   !string.IsNullOrEmpty(_email);
+            return !string.IsNullOrWhiteSpace(_login) && 
+                   !string.IsNullOrWhiteSpace(_password) &&
+                   !string.IsNullOrWhiteSpace(_firstName) &&
+                   !string.IsNullOrWhiteSpace(_lastName) &&
+                   !string.IsNullOrWhiteSpace(_email);
         }
 
         private void SignInExecute(object obj)
