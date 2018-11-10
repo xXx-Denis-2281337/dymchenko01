@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Dymchenko.Managers;
@@ -105,41 +106,58 @@ namespace Dymchenko.ViewModels
         #endregion
 
         #region Private Methods
-        private void SignUpExecute(object obj)
+        private async void SignUpExecute(object obj)
         {
-            try
+            LoaderManager.Instance.ShowLoader();
+            var result = await Task.Run(() =>
             {
-                if (!new EmailAddressAttribute().IsValid(_email))
+                try
                 {
-                    MessageBox.Show(string.Format(Resources.SignUp_EmailIsNotValid, _email));
-                    return;
+                    if (!new EmailAddressAttribute().IsValid(_email))
+                    {
+                        var msg = string.Format(Resources.SignUp_EmailIsNotValid, _email);
+                        MessageBox.Show(msg);
+                        Logger.Log(msg);
+                        return false;
+                    }
+                    if (DbManager.UserExists(_login))
+                    {
+                        var msg = string.Format(Resources.SignUp_UserAlreadyExists, _login);
+                        MessageBox.Show(msg);
+                        Logger.Log(msg);
+                        return false;
+                    }
                 }
-                if (DbManager.UserExists(_login))
+                catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format(Resources.SignUp_UserAlreadyExists, _login));
-                    return;
+                    var msg = string.Format(Resources.SignUp_FailedToValidateData, Environment.NewLine, ex.Message);
+                    MessageBox.Show(msg);
+                    Logger.Log(msg);
+                    return false;
                 }
-            }
-            catch (Exception ex)
+                try
+                {
+                    var user = new User(_firstName, _lastName, _email, _login, _password);
+                    DbManager.AddUser(user);
+                    StationManager.CurrentUser = user;
+                }
+                catch (Exception ex)
+                {
+                    var msg = string.Format(Resources.SignUp_FailedToCreateUser, Environment.NewLine, ex.Message);
+                    MessageBox.Show(msg);
+                    Logger.Log(msg);
+                    return false;
+                }
+                MessageBox.Show(string.Format(Resources.SignUp_UserSuccessfulyCreated, _login));
+                return true;
+            });
+            LoaderManager.Instance.HideLoader();
+            if(result)
             {
-                MessageBox.Show(string.Format(Resources.SignUp_FailedToValidateData, Environment.NewLine, ex.Message));
-                return;
+                StationManager.AddCurrentUserToCache();
+                NavigationManager.Instance.Navigate(ModelsEnum.Main);
+                Logger.Log($"\t{StationManager.CurrentUser.ToString()} succesfuly sign in and navigated to main window");
             }
-            try
-            {
-                var user = new User(_firstName, _lastName, _email, _login, _password);
-                DbManager.AddUser(user);
-                StationManager.CurrentUser = user;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Resources.SignUp_FailedToCreateUser, Environment.NewLine,
-                    ex.Message));
-                return;
-            }
-            MessageBox.Show(string.Format(Resources.SignUp_UserSuccessfulyCreated, _login));
-            StationManager.AddCurrentUserToCache();
-            NavigationManager.Instance.Navigate(ModelsEnum.Main);
         }
 
         private bool SignUpCanExecute(object obj)
@@ -154,6 +172,7 @@ namespace Dymchenko.ViewModels
         private void SignInExecute(object obj)
         {
             NavigationManager.Instance.Navigate(ModelsEnum.SignIn);
+            Logger.Log($"\t Client navigated from sign up window to sign in window");
         }
 
         private void CloseExecute(object obj)

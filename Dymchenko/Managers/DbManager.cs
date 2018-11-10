@@ -40,23 +40,23 @@ namespace Dymchenko.Managers
         #endregion
 
         #region Public Methods
-        public static bool UserExists(string login)
+        internal static bool UserExists(string login)
         {
             return _context.Users.Any(u => u.Login == login);
         }
 
-        public static User GetUserByLogin(string login)
+        internal static User GetUserByLogin(string login)
         {
             return _context.Users.FirstOrDefault(u => u.Login == login);
         }
 
-        public static void AddUser(User user)
+        internal static void AddUser(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
         }
 
-        public static void AddFolderToUserHistory(Folder folder, Guid id)
+        internal static void AddFolderToUserHistory(Folder folder, Guid id)
         {
             if(_context.Folder == null)
                 _context.Folder.Load();
@@ -65,7 +65,7 @@ namespace Dymchenko.Managers
             _context.SaveChanges();
         }
 
-        public static List<Folder> GetFolderHistoryByUserId(Guid id)
+        internal static List<Folder> GetFolderHistoryByUserId(Guid id)
         {
             if (_context.Folder != null)
                 _context.Folder.Load();
@@ -80,7 +80,7 @@ namespace Dymchenko.Managers
             return result;
         }
 
-        public static void Dispose()
+        internal static void Dispose()
         {
             _context.Dispose();
         }

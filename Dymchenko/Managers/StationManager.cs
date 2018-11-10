@@ -1,52 +1,38 @@
 ﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using Dymchenko.Models;
+using Dymchenko.Tools;
 
 namespace Dymchenko.Managers
 {
-    public static class StationManager
+    internal static class StationManager
     {
-        public static User CurrentUser { get; set; }
-
-        //path to app data folder
-        private static readonly string _path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Dymchenko.bin";
-
-        public static bool CheckCurrentUserFromCache()
-        {
-            return File.Exists(_path);
-        }
+        internal static User CurrentUser { get; set; }
 
         // serialize and add user to appdata folder
         // to automatic SignIn next time
-        public static void AddCurrentUserToCache()
+        internal static void AddCurrentUserToCache()
         {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(_path, FileMode.Create, FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, CurrentUser);
-            stream.Close();
+            SerializationManager.Serialize<User>(CurrentUser, FileFolderHelper.LastUserFilePath);
+            Logger.Log($"\t{CurrentUser.ToString()} was added to auto sign in");
         }
 
         // loading user from appdata folder
         // and deserialize it
-        public static void LoadCurrentUserFromCache()
+        internal static void LoadCurrentUserFromCache()
         {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(_path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            CurrentUser = (User)formatter.Deserialize(stream);
-            stream.Close();
+            if (FileFolderHelper.FileExists(FileFolderHelper.LastUserFilePath)) { }
+                CurrentUser = SerializationManager.Deserialize<User>(FileFolderHelper.LastUserFilePath);
+            if(CurrentUser != null)
+                Logger.Log($"\t{CurrentUser.ToString()} succsesfuly auto sign in");
         }
 
         // delete serialized user from appdata folder
         // after SignOut
-        public static void RemoveCurrentUserFromCache()
+        internal static void RemoveCurrentUserFromCache()
         {
-            if (File.Exists(_path))
-            {
-                File.Delete(_path);
-            }
+            FileFolderHelper.CheckAndDeleteFile(FileFolderHelper.LastUserFilePath);
+            Logger.Log($"\t{CurrentUser.ToString()} was removed from auto sign in");
             CurrentUser = null;
         }
 
@@ -54,6 +40,7 @@ namespace Dymchenko.Managers
         {
             DbManager.Dispose();
             MessageBox.Show("ShutDown");
+            Logger.Log("\tSign out");
             Environment.Exit(1);
         }
     }

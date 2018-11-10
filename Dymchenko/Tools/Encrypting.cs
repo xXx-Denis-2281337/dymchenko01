@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Dymchenko.Tools
 {
-    public static class Encrypting
+    internal static class Encrypting
     {
         #region Fields
         private const string strPermutation = "ouiveyxaqtd";
@@ -16,14 +16,9 @@ namespace Dymchenko.Tools
         #endregion
 
         #region Public Methods
-        public static string EncryptString(string str)
+        internal static string EncryptString(string str)
         {
-            return Convert.ToBase64String(Encrypt(Encoding.UTF8.GetBytes(str)));
-        }
-
-        public static string DecryptString(string str)
-        {
-            return Encoding.UTF8.GetString(Decrypt(Convert.FromBase64String(str)));
+            return Convert.ToBase64String(Encrypt(Encrypt(Encoding.UTF8.GetBytes(str))));
         }
         #endregion
 
@@ -45,28 +40,6 @@ namespace Dymchenko.Tools
 
             CryptoStream cryptostream = new CryptoStream(memstream,
             aes.CreateEncryptor(), CryptoStreamMode.Write);
-            cryptostream.Write(strData, 0, strData.Length);
-            cryptostream.Close();
-            return memstream.ToArray();
-        }
-
-        private static byte[] Decrypt(byte[] strData)
-        {
-            PasswordDeriveBytes passbytes =
-            new PasswordDeriveBytes(strPermutation,
-            new byte[] { bytePermutation1,
-                         bytePermutation2,
-                         bytePermutation3,
-                         bytePermutation4
-            });
-
-            MemoryStream memstream = new MemoryStream();
-            Aes aes = new AesManaged();
-            aes.Key = passbytes.GetBytes(aes.KeySize / 8);
-            aes.IV = passbytes.GetBytes(aes.BlockSize / 8);
-
-            CryptoStream cryptostream = new CryptoStream(memstream,
-            aes.CreateDecryptor(), CryptoStreamMode.Write);
             cryptostream.Write(strData, 0, strData.Length);
             cryptostream.Close();
             return memstream.ToArray();

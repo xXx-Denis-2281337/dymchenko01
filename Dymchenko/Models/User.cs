@@ -116,11 +116,11 @@ namespace Dymchenko.Models
         #endregion
 
         #region Public Methods
-        public bool CheckPassword(string password)
+        internal bool CheckPassword(string password)
         {
             try
             {
-                return Encrypting.DecryptString(_password) == password;
+                return _password == Encrypting.EncryptString(password);
             }
             catch (Exception e)
             {

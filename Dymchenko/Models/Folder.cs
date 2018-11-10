@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
 using Dymchenko.Managers;
+using Dymchenko.Tools;
 
 namespace Dymchenko.Models
 {
@@ -72,40 +71,15 @@ namespace Dymchenko.Models
         }
         #endregion
 
-        #region Public Methods
         public override string ToString()
         {
             return Path + "\nFiles count: " + FilesCount.ToString() + "\nFolders count: " + FoldersCount.ToString() + "\nFolder size (byte): " + FolderSize.ToString();
         }
 
         //Calculate folder size, amount of subfolders and amount of files
-        public void Calculate()
+        internal void Calculate()
         {
-            CalculateRec(_path);
+            FolderCalculate.CalculateRec(this, _path);
         }
-        #endregion
-
-        #region Private Methods
-        private void CalculateRec(string path)
-        {
-            //get all files
-            var files = Directory.EnumerateFiles(path);
-            FilesCount += files.ToArray().Length;
-
-            // get the sizeof all files in the current directory
-            var currentSize = (from file in files let fileInfo = new FileInfo(file) select fileInfo.Length).Sum();
-            FolderSize += (int)currentSize;
-
-            //get all folders
-            var folders = Directory.EnumerateDirectories(path);
-            FoldersCount += folders.ToArray().Length;
-
-            // recursive for all subfolders
-            foreach (string folder in folders)
-            {
-                CalculateRec(folder);
-            }
-        }
-        #endregion
     }
 }

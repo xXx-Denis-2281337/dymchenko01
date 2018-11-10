@@ -12,7 +12,7 @@ using System;
 
 namespace Dymchenko.ViewModels
 {
-    class MainViewModel : INotifyPropertyChanged
+    internal class MainViewModel : INotifyPropertyChanged
     {
         #region Fields
         private string _resultText;
@@ -56,6 +56,7 @@ namespace Dymchenko.ViewModels
                 OnPropertyChanged();
             }
         }
+
         #region Commands
         public ICommand SignOutCommand
         {
@@ -103,6 +104,7 @@ namespace Dymchenko.ViewModels
         private void SignOutExecute(object obj)
         {
             NavigationManager.Instance.Navigate(ModelsEnum.SignIn);
+            Logger.Log($"\t{StationManager.CurrentUser.ToString()} succsesfuly sign out and navigated to sign in window");
             StationManager.RemoveCurrentUserFromCache();
         }
 
@@ -116,6 +118,7 @@ namespace Dymchenko.ViewModels
                     DialogResult result = dialog.ShowDialog();
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
                     {
+                        LoaderManager.Instance.ShowLoader();
                         Folder folder = new Folder(dialog.SelectedPath);
                         await Task.Run(() => folder.Calculate());
 
@@ -126,23 +129,37 @@ namespace Dymchenko.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Resources.Main_FailedToChooseFolder,  ex.Message));
+                var msg = string.Format(Resources.Main_FailedToChooseFolder, ex.Message);
+                MessageBox.Show(msg);
+                Logger.Log(msg);
                 return;
             }
-
+            finally
+            {
+                LoaderManager.Instance.HideLoader();
+            }     
+            Logger.Log($"\t{StationManager.CurrentUser.ToString()} succsesfuly get folder info");
         }
 
-        private void ShowHistoryExecute(object obj)
+        private async void ShowHistoryExecute(object obj)
         {
-            try
+            LoaderManager.Instance.ShowLoader();
+            await Task.Run(() => 
             {
-                History = DbManager.GetFolderHistoryByUserId(StationManager.CurrentUser.Id);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Resources.Main_FailedToShowHistory, ex.Message));
-                return;
-            }
+                try
+                {
+                    History = DbManager.GetFolderHistoryByUserId(StationManager.CurrentUser.Id);
+                }
+                catch (Exception ex)
+                {
+                    var msg = string.Format(Resources.Main_FailedToShowHistory, ex.Message);
+                    MessageBox.Show(msg);
+                    Logger.Log(msg);
+                    return;
+                }
+            });
+            LoaderManager.Instance.HideLoader();
+            Logger.Log($"\t{StationManager.CurrentUser.ToString()} was succsesfuly showen history");
         }
 
         private void CloseExecute(object obj)

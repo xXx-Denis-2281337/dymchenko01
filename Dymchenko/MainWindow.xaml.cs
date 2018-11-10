@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using Dymchenko.Managers;
 using Dymchenko.Tools;
+using Dymchenko.ViewModels;
 
 namespace Dymchenko
 {
@@ -8,21 +9,17 @@ namespace Dymchenko
     {
         public MainWindow()
         {
-            InitializeComponent();
-
+            InitializeComponent();  
             NavigationModel navigationModel = new NavigationModel(this);
-
             NavigationManager.Instance.Initialize(navigationModel);
 
-            if (StationManager.CheckCurrentUserFromCache())
-            {
-                StationManager.LoadCurrentUserFromCache();
-                navigationModel.Navigate(ModelsEnum.Main);
-            }
-            else
-            {
-                navigationModel.Navigate(ModelsEnum.SignIn);
-            }
+            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+            
+
+            StationManager.LoadCurrentUserFromCache();
+
+            DataContext = mainWindowViewModel;
+            mainWindowViewModel.StartApplication();
         }
 
         public ContentControl ContentControl

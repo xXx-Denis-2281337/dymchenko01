@@ -5,6 +5,7 @@ using Dymchenko.Tools;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -75,41 +76,59 @@ namespace Dymchenko.ViewModels
         private void SignUpExecute(object obj)
         {
             NavigationManager.Instance.Navigate(ModelsEnum.SingUp);
+            Logger.Log($"\t Client navigated from sign window in to sign up window");
         }
 
-        private void SignInExecute(object obj)
+        private async void SignInExecute(object obj)
         {
-            User currentUser;
-            try
+            LoaderManager.Instance.ShowLoader();
+            var result = await Task.Run(() =>
             {
-                currentUser = DbManager.GetUserByLogin(_login);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(String.Format(Resources.SignIn_FailedToGetUser, Environment.NewLine, ex.Message));
-                return;
-            }
-            if (currentUser == null)
-            {
-                MessageBox.Show(String.Format(Resources.SignIn_UserDoesntExist, _login));
-                return;
-            }
-            try
-            {
-                if (!currentUser.CheckPassword(_password))
+                User currentUser;
+                try
                 {
-                    MessageBox.Show(Resources.SignIn_WrongPassword);
-                    return;
+                    currentUser = DbManager.GetUserByLogin(_login);
                 }
-            }
-            catch (Exception ex)
+                catch (Exception ex)
+                {
+                    var msg = string.Format(Resources.SignIn_FailedToGetUser, Environment.NewLine, ex.Message);
+                    MessageBox.Show(msg);
+                    Logger.Log(msg);
+                    return false;
+                }
+                if (currentUser == null)
+                {
+                    var msg = string.Format(Resources.SignIn_UserDoesntExist, _login);
+                    MessageBox.Show(msg);
+                    Logger.Log(msg);
+                    return false;
+                }
+                try
+                {
+                    if (!currentUser.CheckPassword(_password))
+                    {
+                        MessageBox.Show(Resources.SignIn_WrongPassword);
+                        Logger.Log(Resources.SignIn_WrongPassword);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var msg = string.Format(Resources.SignIn_FailedToValidatePassword, Environment.NewLine, ex.Message);
+                    MessageBox.Show(msg);
+                    Logger.Log(msg);
+                    return false;
+                }
+                StationManager.CurrentUser = currentUser;
+                return true;
+            });
+            LoaderManager.Instance.HideLoader();
+            if (result)
             {
-                MessageBox.Show(String.Format(Resources.SignIn_FailedToValidatePassword, Environment.NewLine, ex.Message));
-                return;
+                StationManager.AddCurrentUserToCache();
+                NavigationManager.Instance.Navigate(ModelsEnum.Main);
+                Logger.Log($"\t{StationManager.CurrentUser.ToString()} succsesfuly sign in and navigated to main window");
             }
-            StationManager.CurrentUser = currentUser;
-            StationManager.AddCurrentUserToCache();
-            NavigationManager.Instance.Navigate(ModelsEnum.Main);
         }
 
         private bool SignInCanExecute(object obj)

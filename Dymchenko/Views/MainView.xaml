@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              Height="400" Width="1000"
              x:ClassModifier="internal">
-    <Grid Name="MainGrid">
+    <Grid Name="MainGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>

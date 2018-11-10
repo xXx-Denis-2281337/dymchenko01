@@ -3,12 +3,12 @@ using System.Windows.Controls;
 
 namespace Dymchenko.Tools
 {
-    public static class PasswordBoxAssistant
+    internal static class PasswordBoxAssistant
     {
-        public static readonly DependencyProperty BoundPassword =
+        internal static readonly DependencyProperty BoundPassword =
             DependencyProperty.RegisterAttached("BoundPassword", typeof(string), typeof(PasswordBoxAssistant), new PropertyMetadata(string.Empty, OnBoundPasswordChanged));
 
-        public static readonly DependencyProperty BindPassword = DependencyProperty.RegisterAttached(
+        internal static readonly DependencyProperty BindPassword = DependencyProperty.RegisterAttached(
             "BindPassword", typeof(bool), typeof(PasswordBoxAssistant), new PropertyMetadata(false, OnBindPasswordChanged));
 
         private static readonly DependencyProperty UpdatingPassword =
@@ -76,22 +76,22 @@ namespace Dymchenko.Tools
             SetUpdatingPassword(box, false);
         }
 
-        public static void SetBindPassword(DependencyObject dp, bool value)
+        internal static void SetBindPassword(DependencyObject dp, bool value)
         {
             dp.SetValue(BindPassword, value);
         }
 
-        public static bool GetBindPassword(DependencyObject dp)
+        internal static bool GetBindPassword(DependencyObject dp)
         {
             return (bool)dp.GetValue(BindPassword);
         }
 
-        public static string GetBoundPassword(DependencyObject dp)
+        internal static string GetBoundPassword(DependencyObject dp)
         {
             return (string)dp.GetValue(BoundPassword);
         }
 
-        public static void SetBoundPassword(DependencyObject dp, string value)
+        internal static void SetBoundPassword(DependencyObject dp, string value)
         {
             dp.SetValue(BoundPassword, value);
         }
