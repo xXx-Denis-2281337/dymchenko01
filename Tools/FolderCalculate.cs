@@ -28,7 +28,7 @@ namespace Dymchenko.Tools
 
             //get all folders
             var folders = Directory.EnumerateDirectories(path);
-            folder.FoldersCount += folders.ToArray().Length;
+            folder.FoldersCount += folders.Count();
 
             // recursive for all subfolders
             foreach (string dir in folders)

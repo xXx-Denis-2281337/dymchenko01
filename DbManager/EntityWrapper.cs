@@ -1,5 +1,4 @@
-﻿using DbAdapter;
-using Dymchenko.Models;
+﻿using Dymchenko.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

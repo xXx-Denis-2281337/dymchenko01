@@ -17,9 +17,6 @@ namespace Dymchenko.Tools
         internal static readonly string LogFilepath = Path.Combine(LogFolderPath,
             "App_" + DateTime.Now.ToString("dd_MM_yyyy") + ".txt");
 
-        /*internal static readonly string StorageFilePath =
-            Path.Combine(ClientFolderPath, "Storage.walsim");*/
-
         internal static readonly string LastUserFilePath =
             Path.Combine(ClientFolderPath, "LastUser.walsim");
 
