@@ -93,7 +93,7 @@ namespace Dymchenko.ViewModels
                 {
                     var msg = string.Format(Resources.SignIn_FailedToGetUser, Environment.NewLine, ex.Message);
                     MessageBox.Show(msg);
-                    Logger.Log(msg);
+                    Logger.Log(msg, ex);
                     return false;
                 }
                 if (currentUser == null)
@@ -116,7 +116,7 @@ namespace Dymchenko.ViewModels
                 {
                     var msg = string.Format(Resources.SignIn_FailedToValidatePassword, Environment.NewLine, ex.Message);
                     MessageBox.Show(msg);
-                    Logger.Log(msg);
+                    Logger.Log(msg, ex);
                     return false;
                 }
                 StationManager.CurrentUser = currentUser;

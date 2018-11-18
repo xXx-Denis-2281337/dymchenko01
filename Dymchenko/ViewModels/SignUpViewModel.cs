@@ -132,7 +132,7 @@ namespace Dymchenko.ViewModels
                 {
                     var msg = string.Format(Resources.SignUp_FailedToValidateData, Environment.NewLine, ex.Message);
                     MessageBox.Show(msg);
-                    Logger.Log(msg);
+                    Logger.Log(msg, ex);
                     return false;
                 }
                 try
@@ -145,7 +145,7 @@ namespace Dymchenko.ViewModels
                 {
                     var msg = string.Format(Resources.SignUp_FailedToCreateUser, Environment.NewLine, ex.Message);
                     MessageBox.Show(msg);
-                    Logger.Log(msg);
+                    Logger.Log(msg, ex);
                     return false;
                 }
                 MessageBox.Show(string.Format(Resources.SignUp_UserSuccessfulyCreated, _login));

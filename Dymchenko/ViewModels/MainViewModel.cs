@@ -119,10 +119,10 @@ namespace Dymchenko.ViewModels
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
                     {
                         LoaderManager.Instance.ShowLoader();
-                        Folder folder = new Folder(dialog.SelectedPath);
+                        Folder folder = new Folder(dialog.SelectedPath, StationManager.CurrentUser);
                         await Task.Run(() => folder.Calculate());
 
-                        DbManager.AddFolderToUserHistory(folder, StationManager.CurrentUser.Id);
+                        await Task.Run(() => DbManager.AddFolderToUserHistory(folder, StationManager.CurrentUser.Id));
                         ResultText = folder.ToString();
                     }
                 }
@@ -131,7 +131,7 @@ namespace Dymchenko.ViewModels
             {
                 var msg = string.Format(Resources.Main_FailedToChooseFolder, ex.Message);
                 MessageBox.Show(msg);
-                Logger.Log(msg);
+                Logger.Log(msg, ex);
                 return;
             }
             finally
@@ -144,20 +144,17 @@ namespace Dymchenko.ViewModels
         private async void ShowHistoryExecute(object obj)
         {
             LoaderManager.Instance.ShowLoader();
-            await Task.Run(() => 
+            try
             {
-                try
-                {
-                    History = DbManager.GetFolderHistoryByUserId(StationManager.CurrentUser.Id);
-                }
-                catch (Exception ex)
-                {
-                    var msg = string.Format(Resources.Main_FailedToShowHistory, ex.Message);
-                    MessageBox.Show(msg);
-                    Logger.Log(msg);
-                    return;
-                }
-            });
+                await Task.Run(() => History = DbManager.GetFolderHistoryByUserId(StationManager.CurrentUser.Id));
+            }
+            catch (Exception ex)
+            {
+                var msg = string.Format(Resources.Main_FailedToShowHistory, ex.Message);
+                MessageBox.Show(msg);
+                Logger.Log(msg, ex);
+                return;
+            }
             LoaderManager.Instance.HideLoader();
             Logger.Log($"\t{StationManager.CurrentUser.ToString()} was succsesfuly showen history");
         }

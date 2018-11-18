@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Dymchenko.Tools
 {
-    internal static class Encrypting
+    public static class Encrypting
     {
         #region Fields
         private const string strPermutation = "ouiveyxaqtd";
@@ -16,7 +16,7 @@ namespace Dymchenko.Tools
         #endregion
 
         #region Public Methods
-        internal static string EncryptString(string str)
+        public static string EncryptString(string str)
         {
             return Convert.ToBase64String(Encrypt(Encrypt(Encoding.UTF8.GetBytes(str))));
         }

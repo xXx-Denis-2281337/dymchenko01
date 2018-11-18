@@ -5,9 +5,9 @@ using Dymchenko.Tools;
 
 namespace Dymchenko.Managers
 {
-    internal static class StationManager
+    public static class StationManager
     {
-        internal static User CurrentUser { get; set; }
+        public static User CurrentUser { get; set; }
 
         // serialize and add user to appdata folder
         // to automatic SignIn next time
@@ -38,6 +38,7 @@ namespace Dymchenko.Managers
 
         public static void CloseApp()
         {
+            DbManager.Dispose();
             MessageBox.Show("ShutDown");
             Logger.Log("\tSign out");
             Environment.Exit(1);

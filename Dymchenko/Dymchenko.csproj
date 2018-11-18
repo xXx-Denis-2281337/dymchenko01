@@ -81,8 +81,6 @@
     <Compile Include="Managers\NavigationManager.cs" />
     <Compile Include="Managers\SerializationManager.cs" />
     <Compile Include="Managers\StationManager.cs" />
-    <Compile Include="Models\Folder.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Tools\Controls\LabelAndPasswordControl.xaml.cs">
       <DependentUpon>LabelAndPasswordControl.xaml</DependentUpon>
@@ -90,9 +88,7 @@
     <Compile Include="Tools\Controls\LabelAndTextControl.xaml.cs">
       <DependentUpon>LabelAndTextControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Encrypting.cs" />
     <Compile Include="Tools\FileFolderHelper.cs" />
-    <Compile Include="Tools\FolderCalculate.cs" />
     <Compile Include="Tools\IContentWindow.cs" />
     <Compile Include="Tools\ILoaderOwner.cs" />
     <Compile Include="Tools\Logger.cs" />
@@ -174,6 +170,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DbManager\DbAdapter.csproj">
+      <Project>{b212f9c3-d426-45fd-9ce8-6541f38dea6a}</Project>
+      <Name>DbAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DbModels\DbModels.csproj">
+      <Project>{42fe324f-5414-4953-a016-180bbd52f2f4}</Project>
+      <Name>DbModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets')" />
