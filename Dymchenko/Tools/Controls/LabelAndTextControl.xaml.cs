@@ -3,9 +3,6 @@ using System.Windows.Controls;
 
 namespace Dymchenko.Tools.Controls
 {
-    /// <summary>
-    /// Логика взаимодействия для LabelAndTextControl.xaml
-    /// </summary>
     public partial class LabelAndTextControl
     {
         public LabelAndTextControl()

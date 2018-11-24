@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Dymchenko.Tools
@@ -6,11 +7,11 @@ namespace Dymchenko.Tools
     public class FolderInfo
     {
         private int _filesCount = 0;
-        private int _folderSize = 0;
+        private long _folderSize = 0;
         private int _foldersCount = 0;
 
         public int FilesCount { get; set;}
-        public int FolderSize { get; set; }
+        public long FolderSize { get; set; }
         public int FoldersCount { get; set; }
     }
 
@@ -19,12 +20,13 @@ namespace Dymchenko.Tools
         public static void CalculateRec(FolderInfo folder, string path)
         {
             //get all files
-            var files = Directory.EnumerateFiles(path);
+            List<string> files = Directory.EnumerateFiles(path).ToList();
+
             folder.FilesCount += files.Count();
 
             // get the sizeof all files in the current directory
-            var currentSize = (from file in files let fileInfo = new FileInfo(file) select fileInfo.Length).Sum();
-            folder.FolderSize += (int)currentSize;
+            long currentSize = (from file in files let fileInfo = new FileInfo(file) select fileInfo.Length).Sum();
+            folder.FolderSize += currentSize;
 
             //get all folders
             var folders = Directory.EnumerateDirectories(path);

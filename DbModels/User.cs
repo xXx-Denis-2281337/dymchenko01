@@ -30,39 +30,43 @@ namespace Dymchenko.Models
             {
                 return _id;
             }
-            set
+
+            private set
             {
                 _id = value;
             }
         }
-        public string FirstName
+        private string FirstName
         {
             get
             {
                 return _firstName;
             }
+
             set
             {
                 _firstName = value;
             }
         }
-        public string LastName
+        private string LastName
         {
             get
             {
                 return _lastName;
             }
+
             set
             {
                 _lastName = value;
             }
         }
-        public string Email
+        private string Email
         {
             get
             {
                 return _email;
             }
+
             set
             {
                 _email = value;
@@ -75,35 +79,38 @@ namespace Dymchenko.Models
             {
                 return _login;
             }
+
             private set
             {
                 _login = value;
             }
         }
-        public string Password
+        private string Password
         {
             get
             {
                 return _password;
             }
+
             set
             {
                 _password = value;
             }
         }
-        public string LastLoginDate
+        private string LastLoginDate
         {
             get
             {
                 return _lastLoginDate;
             }
+
             set
             {
                 _lastLoginDate = value;
             }
         }
 
-        public List<Folder> Folders
+        private List<Folder> Folders
         {
             get
             {

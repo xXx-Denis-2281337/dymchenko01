@@ -12,7 +12,7 @@ namespace Dymchenko.Models
         private string _path;
         private int _filesCount = 0;
         private int _foldersCount = 0;
-        private int _folderSize = 0;
+        private long _folderSize = 0;
         private string _folderRequestDate;
         private Guid _userId;
         private User _user;
@@ -20,45 +20,45 @@ namespace Dymchenko.Models
 
         #region Properties
         [Key]
-        public Guid Id
+        private Guid Id
         {
             get => _id;
             set => _id = value;
         }
         public string Path
         {
-            get => _path;
+            private get => _path;
             set => _path = value;
         }
         public int FilesCount
         {
             get => _filesCount;
-            set => _filesCount = value;
+            private set => _filesCount = value;
         }
         public int FoldersCount
         {
             get => _foldersCount;
-            set => _foldersCount = value;
+            private set => _foldersCount = value;
         }
-        public int FolderSize
+        public long FolderSize
         {
             get => _folderSize;
-            set => _folderSize = value;
+            private set => _folderSize = value;
         }
         public string FolderRequestDate
         {
             get => _folderRequestDate;
-            set => _folderRequestDate = value;
+            private set => _folderRequestDate = value;
         }
         public Guid UserId
         {
             get => _userId;
-            set => _userId = value;
+            private set => _userId = value;
         }
         public User User
         {
             get => _user;
-            set => _user = value;
+            private set => _user = value;
         }
         #endregion
 

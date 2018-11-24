@@ -9,7 +9,7 @@ namespace DbAdapter
         public DbSet<User> Users { get; set; }
         public DbSet<Folder> Folders { get; set; }
 
-        public FolderDbContext() : base("FolderBase")
+        public FolderDbContext() : base("FoldersDatabase")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<FolderDbContext, Configuration>(true));
         }

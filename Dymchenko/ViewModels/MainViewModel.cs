@@ -30,7 +30,7 @@ namespace Dymchenko.ViewModels
         public string ResultText
         {
             get => _resultText;
-            set
+            private set
             {
                 _resultText = value;
                 OnPropertyChanged();
@@ -40,7 +40,7 @@ namespace Dymchenko.ViewModels
         public string UserText
         {
             get => _userText;
-            set
+            private set
             {
                 _userText = value;
                 OnPropertyChanged();
@@ -50,7 +50,7 @@ namespace Dymchenko.ViewModels
         public List<Folder> History
         {
             get => _history;
-            set
+            private set
             {
                 _history = value;
                 OnPropertyChanged();
@@ -146,7 +146,10 @@ namespace Dymchenko.ViewModels
             LoaderManager.Instance.ShowLoader();
             try
             {
-                await Task.Run(() => History = DbManager.GetFolderHistoryByUserId(StationManager.CurrentUser.Id));
+                await Task.Run(() => {
+                    var his = DbManager.GetFolderHistoryByUserId(StationManager.CurrentUser.Id);
+                    History = his;
+                });
             }
             catch (Exception ex)
             {

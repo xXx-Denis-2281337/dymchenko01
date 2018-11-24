@@ -2,9 +2,6 @@
 
 namespace Dymchenko.Tools.Controls
 {
-    /// <summary>
-    /// Логика взаимодействия для LabelAndPasswordControl.xaml
-    /// </summary>
     public partial class LabelAndPasswordControl
     {
         public LabelAndPasswordControl()
