@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dymchenko.Models;
+using DymchenkoFolderServiceInterface;
 
 namespace Dymchenko.Managers
 {
@@ -9,27 +10,27 @@ namespace Dymchenko.Managers
         #region Public Methods
         public static bool UserExists(string login)
         {
-            return DbAdapter.EntityWrapper.UserExists(login);
+            return FolderServiceWrapper.UserExists(login);
         }
 
         public static User GetUserByLogin(string login)
         {
-            return DbAdapter.EntityWrapper.GetUserByLogin(login);
+            return FolderServiceWrapper.GetUserByLogin(login);
         }
 
         public static void AddUser(User user)
         {
-            DbAdapter.EntityWrapper.AddUser(user);
+            FolderServiceWrapper.AddUser(user);
         }
 
         public static void AddFolderToUserHistory(Folder folder, Guid id)
         {
-             DbAdapter.EntityWrapper.AddFolderToUserHistory(folder, id);
+            FolderServiceWrapper.AddFolderToUserHistory(folder, id);
         }
 
         public static List<Folder> GetFolderHistoryByUserId(Guid id)
         {
-            return DbAdapter.EntityWrapper.GetFolderHistoryByUserId(id);
+            return FolderServiceWrapper.GetFolderHistoryByUserId(id);
         }
         #endregion
     }

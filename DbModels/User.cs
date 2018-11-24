@@ -1,29 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.ModelConfiguration;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using Dymchenko.Tools;
 
 namespace Dymchenko.Models
 {
     [Serializable]
+    [DataContract(IsReference = true)]
     public class User
     {
         #region Fields
+        [DataMember]
         private Guid _id;
+        [DataMember]
         private string _firstName;
+        [DataMember]
         private string _lastName;
+        [DataMember]
         private string _email;
+        [DataMember]
         private string _login;
+        [DataMember]
         private string _password;
+        [DataMember]
         private string _lastLoginDate;
-        [NonSerialized]
+        [DataMember]
         private List<Folder> _folders;
         #endregion
 
         #region Properties
-        [Key]
         public Guid Id
         {
             get

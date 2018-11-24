@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Dymchenko.Tools
 {
-    internal static class Logger
+    public static class Logger
     {
-        internal static void Log(string message)
+        public static void Log(string message)
         {
             lock (FileFolderHelper.LogFilepath)
             {
@@ -32,7 +32,7 @@ namespace Dymchenko.Tools
             }
         }
 
-        internal static void Log(string message, Exception ex)
+        public static void Log(string message, Exception ex)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine(message);
@@ -45,7 +45,7 @@ namespace Dymchenko.Tools
             Log(stringBuilder.ToString());
         }
 
-        internal static void Log(Exception ex)
+        public static void Log(Exception ex)
         {
             var stringBuilder = new StringBuilder();
             while (ex != null)

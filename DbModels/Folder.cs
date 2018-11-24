@@ -1,25 +1,33 @@
 ﻿using Dymchenko.Tools;
 using System;
-using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using System.Data.Entity.ModelConfiguration;
 
 namespace Dymchenko.Models
 {
+    [DataContract(IsReference = true)]
     public class Folder
     {
         #region Fields
+        [DataMember]
         private Guid _id;
+        [DataMember]
         private string _path;
+        [DataMember]
         private int _filesCount = 0;
+        [DataMember]
         private int _foldersCount = 0;
+        [DataMember]
         private long _folderSize = 0;
+        [DataMember]
         private string _folderRequestDate;
+        [DataMember]
         private Guid _userId;
+        [DataMember]
         private User _user;
         #endregion
 
         #region Properties
-        [Key]
         private Guid Id
         {
             get => _id;
