@@ -14,9 +14,9 @@ namespace DymchenkoFolderService
             _serviceProcessInstaller.Account = ServiceAccount.LocalSystem;
             _serviceProcessInstaller.Password = null;
             _serviceProcessInstaller.Username = null;
-            _serviceInstaller.ServiceName = FolderSimulatorWindowsService.CurrentServiceName;
-            _serviceInstaller.DisplayName = FolderSimulatorWindowsService.CurrentServiceDisplayName;
-            _serviceInstaller.Description = FolderSimulatorWindowsService.CurrentServiceDescription;
+            _serviceInstaller.ServiceName = DymchenkoFolderSimulatorWindowsService.CurrentServiceName;
+            _serviceInstaller.DisplayName = DymchenkoFolderSimulatorWindowsService.CurrentServiceDisplayName;
+            _serviceInstaller.Description = DymchenkoFolderSimulatorWindowsService.CurrentServiceDescription;
             _serviceInstaller.StartType = ServiceStartMode.Automatic;
             Installers.AddRange(new Installer[]
             {

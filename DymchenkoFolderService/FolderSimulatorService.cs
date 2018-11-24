@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DymchenkoFolderService
 {
-    class FolderSimulatorService : IFolderContract
+    class DymchenkoFolderSimulatorService : IFolderContract
     {
         public bool UserExists(string login)
         {

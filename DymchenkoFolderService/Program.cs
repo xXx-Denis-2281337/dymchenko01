@@ -12,7 +12,7 @@ namespace DymchenkoFolderService
         {
             bool isInstalled = false;
             bool serviceStarting = false;
-            const string serviceName = FolderSimulatorWindowsService.CurrentServiceName;
+            const string serviceName = DymchenkoFolderSimulatorWindowsService.CurrentServiceName;
 
             ServiceController[] services = ServiceController.GetServices();
 
@@ -52,7 +52,7 @@ namespace DymchenkoFolderService
             }
             else
             {
-                var servicesToRun = new ServiceBase[] { new FolderSimulatorWindowsService(), };
+                var servicesToRun = new ServiceBase[] { new DymchenkoFolderSimulatorWindowsService(), };
                 ServiceBase.Run(servicesToRun);
             }
         }

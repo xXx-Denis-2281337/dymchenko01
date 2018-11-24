@@ -1,20 +1,20 @@
-﻿using Dymchenko.Tools;
-using System;
+﻿using System;
 using System.ServiceModel;
 using System.ServiceProcess;
+using Dymchenko.Tools;
 
 namespace DymchenkoFolderService
 {
-    public class FolderSimulatorWindowsService : ServiceBase
+    public class DymchenkoFolderSimulatorWindowsService : ServiceBase
     {
-        internal const string CurrentServiceName = "FolderSimulatorService";
-        internal const string CurrentServiceDisplayName = "Folder Simulator Service";
-        internal const string CurrentServiceSource = "FolderSimulatorServiceSource";
-        internal const string CurrentServiceLogName = "FolderSimulatorServiceLogName";
-        internal const string CurrentServiceDescription = "Folder Simulator for learning purposes.";
+        internal const string CurrentServiceName = "DymchenkoFolderSimulatorService";
+        internal const string CurrentServiceDisplayName = "Dymchenko Folder Simulator Service";
+        internal const string CurrentServiceSource = "DymchenkoFolderSimulatorServiceSource";
+        internal const string CurrentServiceLogName = "DymchenkoFolderSimulatorServiceLogName";
+        internal const string CurrentServiceDescription = "Dymchenko Folder Simulator for learning purposes.";
         private ServiceHost _serviceHost = null;
 
-        public FolderSimulatorWindowsService()
+        public DymchenkoFolderSimulatorWindowsService()
         {
             ServiceName = CurrentServiceName;
             try
@@ -42,7 +42,7 @@ namespace DymchenkoFolderService
             }
             try
             {
-                _serviceHost = new ServiceHost(typeof(FolderSimulatorService));
+                _serviceHost = new ServiceHost(typeof(DymchenkoFolderSimulatorService));
                 _serviceHost.Open();
             }
             catch (Exception ex)
