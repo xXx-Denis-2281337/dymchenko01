@@ -39,7 +39,7 @@ namespace Dymchenko.ViewModels
 
         internal void StartApplication()
         {
-            NavigationManager.Instance.Navigate(StationManager.CurrentUser != null ? ModelsEnum.Main : ModelsEnum.SignIn);
+            NavigationManager.Instance.Navigate(StationManager.CurrentUser != null ? (DbManager.UserExists(StationManager.CurrentUser.Login) ? ModelsEnum.Main : ModelsEnum.SignIn) : ModelsEnum.SignIn);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
